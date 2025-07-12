@@ -56,8 +56,18 @@ async def delete_image(public_id):
     
     try:
         result = cloudinary.uploader.destroy(public_id)
-        return result
+        print(f"[CLOUDINARY] Delete result for {public_id}: {result}")
+        
+        # Check if deletion was successful
+        if result.get("result") == "ok":
+            return {"success": True, "message": "Image deleted successfully", "result": result}
+        elif result.get("result") == "not found":
+            return {"success": False, "message": "Image not found in Cloudinary", "result": result}
+        else:
+            return {"success": False, "message": f"Unexpected result: {result.get('result')}", "result": result}
+            
     except Exception as e:
+        print(f"[CLOUDINARY] Error deleting {public_id}: {e}")
         raise Exception(f"Failed to delete image: {str(e)}")
 
 async def get_image_url(public_id, transformation=None):

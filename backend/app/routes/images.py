@@ -106,29 +106,38 @@ async def upload_multiple_images(
             detail=f"Failed to upload images: {str(e)}"
         )
 
-@router.delete("/{public_id}")
+@router.delete("/{public_id:path}")
 async def delete_clothing_image(
     public_id: str,
     current_user: User = Depends(get_current_user)
 ):
     """Delete an image from Cloudinary"""
-    
+    print(f"[DEBUG] Attempting to delete image with public_id: {public_id}")
+    print(f"[DEBUG] Current user ID: {current_user.id}")
     try:
         # Verify the image belongs to the current user
         if not public_id.startswith(f"rewear/clothing/{current_user.id}/"):
+            print(f"[DEBUG] Not authorized: public_id does not match user")
             raise HTTPException(
                 status_code=403,
                 detail="Not authorized to delete this image"
             )
-        
         result = await delete_image(public_id)
+        print(f"[DEBUG] Cloudinary delete result: {result}")
         
-        return {
-            "message": "Image deleted successfully",
-            "result": result
-        }
-        
+        if result.get("success"):
+            return {
+                "message": result["message"],
+                "result": result["result"]
+            }
+        else:
+            return {
+                "message": result["message"],
+                "result": result["result"],
+                "note": "The image may not exist in Cloudinary or may have already been deleted"
+            }
     except Exception as e:
+        print(f"[ERROR] Failed to delete image: {e}")
         raise HTTPException(
             status_code=500,
             detail=f"Failed to delete image: {str(e)}"
