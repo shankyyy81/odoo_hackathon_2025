@@ -1,0 +1,14 @@
+from pydantic_settings import BaseSettings
+from functools import lru_cache
+
+class Settings(BaseSettings):
+    MONGODB_URI: str
+    DATABASE_NAME: str = "rewear"
+    JWT_SECRET_KEY: str
+    CLOUDINARY_URL: str
+    class Config:
+        env_file = ".env"
+
+@lru_cache
+def get_settings():
+    return Settings() 
