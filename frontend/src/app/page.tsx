@@ -1,11 +1,20 @@
 import Link from "next/link";
+import { auth } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const { userId } = auth();
+
+  // If user is already signed in, redirect to dashboard
+  if (userId) {
+    redirect("/dashboard");
+  }
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100">
       <div className="text-center">
         <h1 className="mb-4 text-4xl font-bold text-gray-900">
-          Welcome to Odoo Hackathon 2025
+          Welcome to ReWear
         </h1>
         <p className="mb-8 text-lg text-gray-600">
           Please sign in to access your dashboard

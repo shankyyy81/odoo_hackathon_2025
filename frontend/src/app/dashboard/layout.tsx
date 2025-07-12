@@ -1,5 +1,4 @@
 import { UserButton } from "@clerk/nextjs";
-import Link from "next/link";
 
 export default function DashboardLayout({
   children,
@@ -7,25 +6,13 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Navigation Bar */}
+    <div className="min-h-screen bg-gray-100">
       <nav className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex h-16 justify-between">
             <div className="flex">
-              <Link href="/" className="flex items-center">
-                <span className="text-xl font-bold">ReWear</span>
-              </Link>
-              <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                <Link href="/dashboard" className="text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 border-transparent hover:border-gray-300">
-                  Overview
-                </Link>
-                <Link href="/dashboard/items" className="text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 border-transparent hover:border-gray-300">
-                  My Items
-                </Link>
-                <Link href="/dashboard/swaps" className="text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 border-transparent hover:border-gray-300">
-                  Swaps
-                </Link>
+              <div className="flex flex-shrink-0 items-center">
+                <span className="text-xl font-bold">Odoo Hackathon</span>
               </div>
             </div>
             <div className="flex items-center">
@@ -34,10 +21,10 @@ export default function DashboardLayout({
           </div>
         </div>
       </nav>
-
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        {children}
+      <main>
+        <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+          {children}
+        </div>
       </main>
     </div>
   );

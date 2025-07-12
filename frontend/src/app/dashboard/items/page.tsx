@@ -6,7 +6,7 @@ export default function ItemsPage() {
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">My Items</h2>
         <Link 
-          href="/dashboard/items/new" 
+          href="/dashboard/add-item" 
           className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
         >
           Add New Item
