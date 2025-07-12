@@ -12,7 +12,7 @@ const mockItems = [
     size: "M",
     condition: "good",
     price: 50,
-    images: ["https://via.placeholder.com/300x400"],
+    images: ["https://res.cloudinary.com/djvgfbjjf/image/upload/v1752321708/rewear/clothing/rewear/clothing/68724e2e6b16c05c71cecdf6/7ca3695a-7231-458d-8f2c-30a249cb8211.jpg"],
     seller: "John Doe",
     createdAt: "2024-01-15",
   },
@@ -24,7 +24,7 @@ const mockItems = [
     size: "L",
     condition: "like-new",
     price: 0,
-    images: ["https://via.placeholder.com/300x400"],
+    images: ["https://res.cloudinary.com/djvgfbjjf/image/upload/v1752321778/rewear/clothing/rewear/clothing/68724e2e6b16c05c71cecdf6/e36b11c2-0687-41f7-8ec0-7278af5294b6.jpg"],
     seller: "Jane Smith",
     createdAt: "2024-01-14",
   },
@@ -36,7 +36,7 @@ const mockItems = [
     size: "9",
     condition: "good",
     price: 75,
-    images: ["https://via.placeholder.com/300x400"],
+    images: ["https://res.cloudinary.com/djvgfbjjf/image/upload/v1752321817/rewear/clothing/rewear/clothing/68724e2e6b16c05c71cecdf6/e5c30cf3-7662-44f1-85f2-f8bcd63c4e32.jpg"],
     seller: "Mike Johnson",
     createdAt: "2024-01-13",
   },
@@ -159,8 +159,10 @@ export default function BrowsePage() {
           <div key={item.id} className="rounded-lg bg-white shadow-sm transition-all hover:shadow-md">
             <div className="aspect-w-3 aspect-h-4">
               <img
-                src={item.images[0]}
+                src={item.images[0].replace('via.placeholder.com', 'placehold.co')}
                 alt={item.title}
+                width={300}
+                height={400}
                 className="h-64 w-full rounded-t-lg object-cover"
               />
             </div>

@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 // Mock data for demonstration
-const mockMyItems = [
+const mockPurchases = [
   {
     id: "1",
     title: "Vintage Denim Jacket",
@@ -13,10 +13,9 @@ const mockMyItems = [
     condition: "good",
     price: 50,
     images: ["https://res.cloudinary.com/djvgfbjjf/image/upload/v1752321708/rewear/clothing/rewear/clothing/68724e2e6b16c05c71cecdf6/7ca3695a-7231-458d-8f2c-30a249cb8211.jpg"],
-    status: "active",
-    views: 12,
-    likes: 3,
-    createdAt: "2024-01-15",
+    seller: "John Doe",
+    purchasedAt: "2024-01-15",
+    status: "delivered",
   },
   {
     id: "2",
@@ -27,27 +26,26 @@ const mockMyItems = [
     condition: "like-new",
     price: 0,
     images: ["https://res.cloudinary.com/djvgfbjjf/image/upload/v1752321778/rewear/clothing/rewear/clothing/68724e2e6b16c05c71cecdf6/e36b11c2-0687-41f7-8ec0-7278af5294b6.jpg"],
-    status: "sold",
-    views: 8,
-    likes: 1,
-    createdAt: "2024-01-14",
+    seller: "Jane Smith",
+    purchasedAt: "2024-01-14",
+    status: "in-transit",
   },
 ];
 
-export default function MyItemsPage() {
+export default function PurchasesPage() {
   const [selectedStatus, setSelectedStatus] = useState("all");
 
-  const filteredItems = mockMyItems.filter(item => {
+  const filteredPurchases = mockPurchases.filter(purchase => {
     if (selectedStatus === "all") return true;
-    return item.status === selectedStatus;
+    return purchase.status === selectedStatus;
   });
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case "active":
-        return <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">Active</span>;
-      case "sold":
-        return <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">Sold</span>;
+      case "delivered":
+        return <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">Delivered</span>;
+      case "in-transit":
+        return <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">In Transit</span>;
       case "pending":
         return <span className="inline-flex items-center rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-medium text-yellow-800">Pending</span>;
       default:
@@ -57,14 +55,9 @@ export default function MyItemsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">My Items</h1>
-          <p className="mt-2 text-gray-600">Manage your clothing listings</p>
-        </div>
-        <button className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">
-          Add New Item
-        </button>
+      <div>
+        <h1 className="text-2xl font-bold text-gray-900">My Purchases</h1>
+        <p className="mt-2 text-gray-600">Items you've purchased from the community</p>
       </div>
 
       {/* Status Filter */}
@@ -78,82 +71,76 @@ export default function MyItemsPage() {
                 : "text-gray-500 hover:text-gray-700"
             }`}
           >
-            All ({mockMyItems.length})
+            All ({mockPurchases.length})
           </button>
           <button
-            onClick={() => setSelectedStatus("active")}
+            onClick={() => setSelectedStatus("delivered")}
             className={`rounded-md px-3 py-2 text-sm font-medium ${
-              selectedStatus === "active"
+              selectedStatus === "delivered"
                 ? "bg-green-100 text-green-700"
                 : "text-gray-500 hover:text-gray-700"
             }`}
           >
-            Active ({mockMyItems.filter(item => item.status === "active").length})
+            Delivered ({mockPurchases.filter(p => p.status === "delivered").length})
           </button>
           <button
-            onClick={() => setSelectedStatus("sold")}
+            onClick={() => setSelectedStatus("in-transit")}
             className={`rounded-md px-3 py-2 text-sm font-medium ${
-              selectedStatus === "sold"
-                ? "bg-gray-100 text-gray-700"
+              selectedStatus === "in-transit"
+                ? "bg-blue-100 text-blue-700"
                 : "text-gray-500 hover:text-gray-700"
             }`}
           >
-            Sold ({mockMyItems.filter(item => item.status === "sold").length})
+            In Transit ({mockPurchases.filter(p => p.status === "in-transit").length})
           </button>
         </div>
       </div>
 
-      {/* Items Grid */}
+      {/* Purchases Grid */}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {filteredItems.map(item => (
-          <div key={item.id} className="rounded-lg bg-white shadow-sm">
+        {filteredPurchases.map(purchase => (
+          <div key={purchase.id} className="rounded-lg bg-white shadow-sm">
             <div className="relative">
               <img
-                src={item.images[0].replace('via.placeholder.com', 'placehold.co')}
-                alt={item.title}
+                src={purchase.images[0].replace('via.placeholder.com', 'placehold.co')}
+                alt={purchase.title}
                 width={300}
                 height={400}
                 className="h-64 w-full rounded-t-lg object-cover"
               />
               <div className="absolute top-2 right-2">
-                {getStatusBadge(item.status)}
+                {getStatusBadge(purchase.status)}
               </div>
             </div>
             <div className="p-4">
-              <h3 className="text-lg font-semibold text-gray-900">{item.title}</h3>
-              <p className="mt-1 text-sm text-gray-600 line-clamp-2">{item.description}</p>
+              <h3 className="text-lg font-semibold text-gray-900">{purchase.title}</h3>
+              <p className="mt-1 text-sm text-gray-600 line-clamp-2">{purchase.description}</p>
               
               <div className="mt-3 flex items-center justify-between">
                 <div className="flex space-x-2">
                   <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
-                    {item.category}
+                    {purchase.category}
                   </span>
                   <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
-                    {item.size}
+                    {purchase.size}
                   </span>
                 </div>
                 <span className="text-lg font-bold text-gray-900">
-                  {item.price === 0 ? "Free" : `${item.price} pts`}
+                  {purchase.price === 0 ? "Free" : `${purchase.price} pts`}
                 </span>
               </div>
 
               <div className="mt-3 flex items-center justify-between text-sm text-gray-500">
-                <div className="flex space-x-4">
-                  <span>👁 {item.views} views</span>
-                  <span>♥ {item.likes} likes</span>
-                </div>
-                <span>{item.condition}</span>
+                <span>from {purchase.seller}</span>
+                <span>Purchased {purchase.purchasedAt}</span>
               </div>
 
               <div className="mt-4 flex space-x-2">
                 <button className="flex-1 rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700">
-                  Edit
+                  View Details
                 </button>
-                <button className="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-                  View
-                </button>
-                <button className="rounded-md border border-red-300 px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-50">
-                  Delete
+                <button className="rounded-md border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                  Contact Seller
                 </button>
               </div>
             </div>
@@ -161,9 +148,9 @@ export default function MyItemsPage() {
         ))}
       </div>
 
-      {filteredItems.length === 0 && (
+      {filteredPurchases.length === 0 && (
         <div className="text-center py-12">
-          <p className="text-gray-500">No items found.</p>
+          <p className="text-gray-500">No purchases found.</p>
         </div>
       )}
     </div>

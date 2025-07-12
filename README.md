@@ -3,6 +3,33 @@
 **Problem statement:** ReWear – Community Clothing Exchange
 **Team:** Smells Like Team Spirit
 
+## Frontend Setup (Next.js, Clerk)
+
+### 1. Install Node.js dependencies
+```bash
+cd frontend
+npm install
+```
+
+### 2. Set up environment variables
+Create a `.env.local` file in the `frontend` directory with the following content:
+
+```
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+CLERK_SECRET_KEY=your_clerk_secret_key
+```
+
+- Get your Clerk keys from your Clerk dashboard.
+
+### 3. Run the frontend development server
+```bash
+npm run dev
+```
+
+- The app will be available at `http://localhost:3000`
+
+---
+
 ## Backend Setup (FastAPI, MongoDB, Cloudinary)
 
 ### 1. Clone the repository
